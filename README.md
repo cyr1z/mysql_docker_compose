@@ -1,6 +1,7 @@
 # mysql_docker_compose
-MariaDB (MySQL) In docker
+### MariaDB (MySQL) In docker
 
+```yml
 help                           This help
 build                          Build the container
 build-nc                       Build the container without caching
@@ -15,3 +16,4 @@ db-dump                        Make database dump
 db-dump-restore                database restore from dump archive
 db-dump-archive                Make database dump archive
 db-backup                      database backup
+```
