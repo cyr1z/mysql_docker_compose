@@ -9,7 +9,7 @@ export LAST_BACKUP_FILE=`ls -1t ./database/backup | head -n 1`
 # HELP
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-.PHONY: help start build build-nc stop down logs db-logs db-dump db-shell
+.PHONY: help start build build-nc stop down logs db-logs db-shell db-bash db-dump-restore
 
 help: ## This help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -65,16 +65,3 @@ db-backup: ## database backup
 	docker exec -i mariadb-${APP_NAME} sh -c "tar --create --xz --file - /backup/${DATE} > /backup/${DATE}-backup.tar.xz"
 	docker exec -i mariadb-${APP_NAME} sh -c "chmod 666  /backup/${DATE}-backup.tar.xz"
 	docker exec -i mariadb-${APP_NAME} sh -c "exec rm -rf /backup/${DATE}"
-
-#db-backup-restore: ## database backup restore
-#	cp ./database/backup/${LAST_BACKUP_FILE} ./database/backup/latest-backup.tar.xz
-#	tar -jxfJ ./database/backup/latest-backup.tar.xz
-#	mkdir ./database/backup/latest
-#	tar -xf ./database/backup/latest-backup.tar.xz -C ./database/backup/latest
-#	docker exec -i mariadb-${APP_NAME} sh -c "exec mariabackup --copy-back --target-dir=/backup/latest/backup"
-#	docker exec -i mariadb-${APP_NAME} sh -c "exec rm -rf /backup/last"
-
-
-
-
-
