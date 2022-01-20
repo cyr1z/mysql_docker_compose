@@ -1,5 +1,5 @@
 # mysql_docker_compose
-### MariaDB (MySQL) In docker
+### MariaDB (MySQL) In docker with adminer
 
 make 
 ```yml
