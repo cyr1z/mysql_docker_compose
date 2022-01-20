@@ -1,6 +1,7 @@
 # mysql_docker_compose
 ### MariaDB (MySQL) In docker
 
+make 
 ```yml
 help                           This help
 build                          Build the container
