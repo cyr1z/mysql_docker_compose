@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+  db:
+    image: mariadb:${MARIADB_VERSION}
+    container_name: mariadb-${APP_NAME}
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    
+    volumes: 
+      - ./database/init:/docker-entrypoint-initdb.d
+      - ./database/db/:/var/lib/mysql
+      - ./database/logs:/var/logs/mysql
+      - ./database/config/custom.cnf:/etc/mysql/conf.d/custom.cnf
+      - ./database/backup:/backup
+
+    ports:
+      - ${DB_PORT}:3306
+
+    healthcheck:
+      test: "/usr/bin/mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute \"SHOW DATABASES;\""
+      interval: 3s
+      timeout: 1s
+      retries: 5
+
+  adminer:
+    image: adminer
+    container_name: adminer-${APP_NAME}
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+    depends_on:
+      db:
+        condition: service_healthy
+
